@@ -276,9 +276,16 @@
 
 .expertise {
     @apply relative px-5 pt-20 pb-10 sm:px-8 lg:px-12;
-    background:
-        radial-gradient(120% 60% at 50% 0%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 70%),
-        color-mix(in srgb, var(--background-secondary) 45%, var(--background));
+    background-color: var(--background);
+    background-image:
+        linear-gradient(
+            color-mix(in srgb, var(--background) 78%, transparent),
+            color-mix(in srgb, var(--background) 86%, transparent)
+        ),
+        url("../../images/expertise-section-bg.jpg");
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
 }
 
 .expertise-head {
@@ -286,16 +293,16 @@
 }
 
 .expertise-eyebrow {
-    @apply text-[12px] font-bold tracking-[0.18em] text-primary uppercase;
+    @apply text-[13px] font-bold tracking-[0.18em] text-primary uppercase;
 }
 
 .expertise-title {
-    @apply mt-4 font-display text-[clamp(2rem,5vw,3.75rem)] font-extrabold tracking-[-0.03em];
+    @apply mt-4 font-display text-[clamp(2rem,4.4vw,3.5rem)] font-extrabold tracking-[-0.03em];
     color: var(--hero-title);
 }
 
 .expertise-lead {
-    @apply mt-5 max-w-[560px] text-[16px] leading-[1.7] sm:text-[17px];
+    @apply mt-5 max-w-[560px] text-[17px] leading-[1.7];
     color: color-mix(in srgb, var(--foreground) 72%, transparent);
 }
 
@@ -330,13 +337,12 @@
 
 .stack-card-mark {
     @apply pointer-events-none absolute top-1/2 left-1/2 block;
-    height: 135%;
+    height: 120%;
+    width: auto;
     transform: translate(-50%, -50%);
     fill: none;
-    stroke: var(--accent);
-    stroke-width: 46;
-    stroke-linecap: round;
-    opacity: 0.16;
+    color: var(--accent);
+    opacity: 0.32;
 }
 
 .stack-card-inner {
@@ -344,18 +350,13 @@
 }
 
 .stack-card-top {
-    @apply mb-8 flex w-full items-center justify-between;
+    @apply mb-8 flex w-full items-center justify-start;
 }
 
 .stack-card-tag {
-    @apply inline-flex rounded-full px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] uppercase;
+    @apply inline-flex rounded-full px-3.5 py-1.5 text-[12px] font-bold tracking-[0.14em] uppercase;
     color: var(--accent-ink);
     background: color-mix(in srgb, var(--accent) 20%, transparent);
-}
-
-.stack-card-index {
-    @apply font-display text-[13px] font-bold tracking-[0.14em];
-    color: color-mix(in srgb, var(--accent-ink) 65%, transparent);
 }
 
 .stack-card-icon {
@@ -369,12 +370,12 @@
 }
 
 .stack-card-title {
-    @apply font-display text-[clamp(1.9rem,4.6vw,3.6rem)] font-extrabold leading-[1.05] tracking-[-0.03em] text-balance;
+    @apply font-display text-[clamp(1.75rem,4.1vw,3.4rem)] font-extrabold leading-[1.08] tracking-[-0.03em] text-balance;
     color: var(--accent-ink);
 }
 
 .stack-card-text {
-    @apply mt-6 max-w-[560px] text-[16px] leading-[1.7] sm:text-[17px];
+    @apply mt-6 max-w-[560px] text-[17px] leading-[1.7];
     color: color-mix(in srgb, var(--accent-ink) 88%, var(--foreground));
 }
 
