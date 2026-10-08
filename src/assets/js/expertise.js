@@ -29,46 +29,96 @@ if (!reduceMotion) {
 
 /* ------------------------------------------------------------------ */
 /* Expertise card stack                                                */
-/*   - CSS `position: sticky` handles the "card moves bottom to top"   */
-/*     travel and keeps each card pinned.                              */
-/*   - GSAP scrubs each card backwards (shrink + tilt + lift) as the   */
-/*     next card slides up and covers it.                              */
+/*   - ScrollTrigger pins the whole .expertise section (adds           */
+/*     .is-fixed), locking it into a 100vh stage so the background and  */
+/*     heading stay perfectly still while you scroll.                   */
+/*   - The cards are absolutely stacked inside that stage; a scrubbed   */
+/*     timeline lifts each card up over the previous one while the     */
+/*     card behind shrinks + tilts (same card feel as before, but the  */
+/*     section no longer travels with the scroll).                      */
 /* ------------------------------------------------------------------ */
 
+const section = document.querySelector('.expertise');
 const cards = gsap.utils.toArray('.stack-card');
 
-if (cards.length && !reduceMotion) {
-	cards.forEach((card, i) => {
-		const next = cards[i + 1];
+if (section && cards.length && !reduceMotion) {
+	// Lock the section into the fixed stage (see .expertise.is-fixed CSS).
+	section.classList.add('is-fixed');
 
-		// Entrance: card content rises as the card scrolls into view.
-		gsap.from(card.querySelector('.stack-card-inner'), {
+	// GSAP owns the cards' transforms from here on — restate the CSS origin.
+	gsap.set(cards, { transformOrigin: '50% 0%' });
+
+	// Every card after the first waits just below the stage (clipped by it).
+	gsap.set(cards.slice(1), { yPercent: 105 });
+
+	// First card's content rises as the section scrolls into view.
+	const firstInner = cards[0].querySelector('.stack-card-inner');
+	if (firstInner) {
+		gsap.from(firstInner, {
 			y: 60,
 			opacity: 0,
 			duration: 0.8,
 			ease: 'power2.out',
 			scrollTrigger: {
-				trigger: card,
-				start: 'top 90%',
+				trigger: section,
+				start: 'top 85%',
 				toggleActions: 'play none none reverse'
 			}
 		});
+	}
 
-		if (!next) return;
+	// One viewport of scroll per hand-off to the next card.
+	const tl = gsap.timeline({
+		defaults: { ease: 'none' },
+		scrollTrigger: {
+			trigger: section,
+			start: 'top top',
+			end: () => '+=' + Math.max(cards.length - 1, 1) * window.innerHeight,
+			pin: true,
+			anticipatePin: 1,
+			scrub: true,
+			invalidateOnRefresh: true
+		}
+	});
 
-		// As the next card travels up over this one, push this card back.
-		gsap.to(card, {
-			scale: 0.93,
-			yPercent: -7,
-			rotate: i % 2 === 0 ? -1.6 : 1.6,
-			ease: 'none',
-			scrollTrigger: {
-				trigger: next,
-				start: 'top bottom',
-				end: 'top top',
-				scrub: true
+	cards.forEach((card, i) => {
+		const inner = card.querySelector('.stack-card-inner');
+
+		if (i > 0) {
+			// This card rises from below the stage as you scroll.
+			tl.fromTo(
+				card,
+				{ yPercent: 105 },
+				{ yPercent: 0, duration: 1, immediateRender: false },
+				i - 1
+			);
+
+			// Its content settles in during the first half of the rise.
+			if (inner) {
+				tl.fromTo(
+					inner,
+					{ y: 60, opacity: 0 },
+					{ y: 0, opacity: 1, duration: 0.5, immediateRender: false },
+					i - 1
+				);
 			}
-		});
+		}
+
+		// As the next card slides up and covers this one, push it back.
+		if (i < cards.length - 1) {
+			tl.fromTo(
+				card,
+				{ scale: 1, yPercent: 0, rotate: 0 },
+				{
+					scale: 0.93,
+					yPercent: -7,
+					rotate: i % 2 === 0 ? -1.6 : 1.6,
+					duration: 1,
+					immediateRender: false
+				},
+				i
+			);
+		}
 	});
 
 	// Keep trigger positions accurate once fonts/images settle.

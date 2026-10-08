@@ -394,8 +394,222 @@
     color: color-mix(in srgb, var(--foreground) 82%, transparent);
 }
 
+/* ------------------------------------------------------------------ */
+/* Fixed-screen mode — added by expertise.js when GSAP pins the       */
+/* section. The section locks into a 100vh stage (background + head    */
+/* included) and the cards are clipped underneath it, rising up one    */
+/* by one as you scroll.                                              */
+/* ------------------------------------------------------------------ */
+
+.expertise.is-fixed {
+    height: 100vh;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-top: clamp(14px, 3vh, 40px);
+    padding-bottom: clamp(14px, 2.5vh, 30px);
+}
+
+.expertise.is-fixed .expertise-head {
+    flex: 0 0 auto;
+    width: 100%; /* flex item + auto margins would size to fit-content */
+    margin-bottom: clamp(14px, 2.5vh, 34px);
+}
+
+.expertise.is-fixed .expertise-lead {
+    margin-top: clamp(8px, 1.5vh, 20px);
+    font-size: clamp(14px, 2.2vh, 17px);
+}
+
+/* The stack fills everything below the head; each card spans it fully. */
+.expertise.is-fixed .stack {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%; /* flex item + auto margins would size to fit-content (0,
+                   since every card is absolutely positioned inside it) */
+}
+
+.expertise.is-fixed .stack-card {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    margin-bottom: 0;
+    padding-block: clamp(16px, 3.5vh, 56px);
+}
+
+.expertise.is-fixed .stack-card-top {
+    margin-bottom: clamp(12px, 2.5vh, 32px);
+}
+
+.expertise.is-fixed .stack-card-icon {
+    margin-bottom: clamp(12px, 2vh, 24px);
+}
+
+.expertise.is-fixed .stack-card-text {
+    margin-top: clamp(12px, 2vh, 24px);
+    font-size: clamp(14px, 2.2vh, 17px);
+}
+
 @media (prefers-reduced-motion: reduce) {
     .stack-card { position: relative; top: auto; margin-bottom: 24px; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Next section — Quantum Computing partnership card                    */
+/*   Rounded card: left visual = ink blob + svg4 ribbon overlay,       */
+/*   right = heading, description and info chip.                        */
+/* ------------------------------------------------------------------ */
+
+.showcase {
+    @apply px-5 sm:px-8 lg:px-12;
+    padding-top: clamp(24px, 6vh, 72px);
+    padding-bottom: clamp(72px, 14vh, 160px);
+}
+
+.showcase-card {
+    @apply mx-auto max-w-[1180px];
+    position: relative;
+    display: flex;
+    min-height: clamp(420px, 44vw, 250px);
+    overflow: hidden;
+    border-radius: clamp(20px, 2.5vw, 32px);
+    background: color-mix(in srgb, var(--secondary) 7%, var(--surface));
+    border: 1px solid var(--hairline);
+}
+
+/* Full-card layer: blob + svg4 float ON TOP of the content. */
+.showcase-visual {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Solid shape the ribbon rides over (echoes the map in the reference). */
+.showcase-blob {
+    position: absolute;
+    top: -34%;
+    right: -9%;
+    width: 47%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--ink);
+}
+
+/* svg4 overlaying the blob and the card, bleeding past the edges. */
+.showcase-mark {
+    position: absolute;
+    top: 50%;
+    right: -3%;
+    height: 124%;
+    width: auto;
+    transform: translateY(-50%) rotate(-14deg);
+    color: var(--primary);
+    filter: drop-shadow(0 18px 40px rgb(0 0 0 / 18%));
+}
+
+.showcase-content {
+    @apply flex flex-col items-start justify-center gap-5;
+    padding: clamp(28px, 4vw, 64px);
+}
+
+.showcase-eyebrow {
+    @apply text-[13px] font-bold tracking-[0.18em] text-primary uppercase;
+}
+
+.showcase-title {
+    @apply font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.03em] text-balance;
+    color: var(--hero-title);
+}
+
+.showcase-text {
+    @apply text-[17px] leading-[1.75];
+    max-width: min(560px, 56%); /* keep the right half free for the overlay */
+    color: color-mix(in srgb, var(--foreground) 78%, transparent);
+}
+
+.showcase-text strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.showcase-chip {
+    display: inline-block;
+    @apply font-mono text-[13.5px] leading-[1.6] font-medium tracking-[0.02em];
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--tertiary) 35%, transparent);
+    background: color-mix(in srgb, var(--tertiary) 9%, transparent);
+    color: color-mix(in srgb, var(--tertiary) 85%, var(--foreground));
+}
+
+.showcase-chip .chip-accent {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Mid widths: pull the overlay further off the edge to keep text clear. */
+@media (min-width: 861px) and (max-width: 1100px) {
+    .showcase-blob { top: -30%; right: -14%; width: 44%; }
+    .showcase-mark { right: -10%; height: 104%; }
+}
+
+@media (max-width: 860px) {
+    .showcase-card { min-height: 0; }
+    .showcase-content { padding-top: clamp(150px, 46vw, 230px); }
+    .showcase-text { max-width: 100%; }
+    .showcase-blob { top: 0; right: -14%; width: 50%; transform: translateY(-45%); }
+    .showcase-mark {
+        top: -40px;
+        right: -6%;
+        width: min(46%, 260px);
+        height: auto;
+        transform: rotate(-14deg);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* Partners — centered heading + monochrome logo row (reference style) */
+/* ------------------------------------------------------------------ */
+
+.partners {
+    @apply px-5 sm:px-8 lg:px-12;
+    padding-top: clamp(24px, 5vh, 56px);
+    padding-bottom: clamp(64px, 12vh, 140px);
+}
+
+.partners-title {
+    @apply font-display text-center text-[clamp(1.6rem,3vw,2.1rem)] font-bold tracking-[-0.02em];
+    color: var(--hero-title);
+    margin-bottom: clamp(36px, 6vh, 64px);
+}
+
+.partners-row {
+    @apply mx-auto flex max-w-[1180px] flex-wrap items-center justify-center gap-x-10 gap-y-8 lg:justify-between;
+}
+
+.partners-item {
+    @apply flex items-center;
+}
+
+.partners-item img {
+    @apply h-10 w-auto sm:h-11;
+    filter: grayscale(1);
+    opacity: 0.7;
+    animation: partners-sweep 8s linear infinite;
+    animation-delay: calc(var(--i) * 0.25s);
+}
+
+.partners-item:nth-child(1) { --i: 0s; }
+.partners-item:nth-child(2) { --i: 0.25s; }
+.partners-item:nth-child(3) { --i: 0.5s; }
+.partners-item:nth-child(4) { --i: 0.75s; }
+.partners-item:nth-child(5) { --i: 1s; }
+
+@keyframes partners-sweep {
+    0%   { transform: translateX(0); opacity: 0.7; }
+    100% { transform: translateX(-120%); opacity: 0.7; }
 }
 
 .approach-preview { @apply border-t border-hairline; }
