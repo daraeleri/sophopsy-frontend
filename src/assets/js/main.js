@@ -73,6 +73,65 @@
 	onScroll();
 
 	/* ------------------------------------------------------------------ */
+	/* Partner logos — scroll only when the original row overflows          */
+	/* ------------------------------------------------------------------ */
+
+	var partnersViewport = document.querySelector('.partners-viewport');
+	var partnersRow = document.querySelector('.partners-row');
+	var partnersTrack = document.querySelector('.partners-track');
+
+	if (partnersViewport && partnersRow && partnersTrack) {
+		var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+		var partnersClone = null;
+		var partnersFrame = 0;
+
+		function updatePartners() {
+			partnersFrame = 0;
+			var rowWidth = partnersRow.getBoundingClientRect().width;
+			var overflowing = rowWidth > partnersViewport.clientWidth + 1;
+			var scrolling = overflowing && !reducedMotion.matches;
+			partnersViewport.classList.toggle('is-overflowing', overflowing);
+			partnersViewport.classList.toggle('is-scrolling', scrolling);
+
+			if (partnersClone) {
+				partnersClone.remove();
+				partnersClone = null;
+			}
+
+			if (scrolling) {
+				var gap = parseFloat(window.getComputedStyle(partnersTrack).columnGap) || 0;
+				var distance = rowWidth + gap;
+				partnersTrack.style.setProperty('--partners-distance', distance + 'px');
+				partnersTrack.style.setProperty('--partners-duration', distance / 40 + 's');
+				partnersClone = partnersRow.cloneNode(true);
+				partnersClone.setAttribute('aria-hidden', 'true');
+				partnersClone.setAttribute('inert', '');
+				partnersTrack.appendChild(partnersClone);
+				partnersViewport.scrollLeft = 0;
+			}
+		}
+
+		function schedulePartnersUpdate() {
+			if (!partnersFrame) partnersFrame = window.requestAnimationFrame(updatePartners);
+		}
+
+		partnersRow.addEventListener('load', schedulePartnersUpdate, true);
+		reducedMotion.addEventListener('change', schedulePartnersUpdate);
+		window.addEventListener('resize', schedulePartnersUpdate);
+		if (window.ResizeObserver) {
+			var partnersResizeObserver = new ResizeObserver(schedulePartnersUpdate);
+			partnersResizeObserver.observe(partnersViewport);
+			partnersResizeObserver.observe(partnersRow);
+		}
+		if (window.MutationObserver) {
+			new MutationObserver(schedulePartnersUpdate).observe(partnersRow, {
+				childList: true, subtree: true, attributes: true
+			});
+		}
+		updatePartners();
+	}
+
+	/* ------------------------------------------------------------------ */
 	/* Mobile menu                                                         */
 	/* ------------------------------------------------------------------ */
 
