@@ -98,8 +98,30 @@
     background: var(--hero-bg-1);
 }
 
+/* Transparent while the hero is in view; the white plate fades in as soon
+   as the page is scrolled (main.js toggles .is-scrolled on #nav-shell). */
 .nav-bar {
-    @apply relative flex items-center justify-between gap-4 rounded-[18px] bg-surface px-4 py-2 sm:px-6;
+    @apply relative flex items-center justify-between gap-4 rounded-[18px] px-4 py-1.5 transition-[background-color,box-shadow] duration-300 sm:px-3 sm:py-2;
+    background-color: transparent;
+    box-shadow: 0 0 0 0 rgb(20 30 26 / 0%);
+}
+
+#nav-shell.is-scrolled .nav-bar {
+    background-color: #ffffff;
+    box-shadow: 0 14px 34px -18px rgb(20 30 26 / 38%);
+}
+
+/* Once the white plate is on screen it sits over a light backdrop in both
+   themes, so the bar has to keep light-surface ink tokens there instead of
+   inheriting the dark-mode foreground. While the bar is still transparent
+   it keeps the theme's own tokens, which read against the dark canvas. */
+.dark #nav-shell.is-scrolled .nav-bar,
+.dark .mobile-menu {
+    --surface: #ffffff;
+    --foreground: #222222;
+    --background: #f5f5f5;
+    --ink: #241b35;
+    --hairline: color-mix(in srgb, #222222 11%, transparent);
 }
 
 .nav-brand {
@@ -116,6 +138,11 @@
 
 .nav-links > a {
     @apply text-[15px] font-medium text-foreground transition-colors duration-150 hover:text-primary;
+}
+
+.nav-links > a,
+.nav-links > a:visited {
+    text-decoration: none;
 }
 
 .nav-actions {
@@ -147,7 +174,21 @@
 .dark .theme-toggle .icon-moon { @apply hidden; }
 
 .nav-cta {
-    @apply inline-flex items-center rounded-[10px] bg-primary px-4 py-2 text-[13px] font-bold text-on-primary sm:px-5 sm:text-sm;
+    @apply inline-flex shrink-0 items-center gap-2 rounded-full bg-primary py-1.5 pr-1.5 pl-4 text-[13px] font-bold text-on-primary transition-transform duration-200 hover:-translate-y-0.5 sm:gap-3 sm:pl-5 sm:text-sm;
+}
+
+.nav-cta-icon {
+    @apply flex size-7 shrink-0 items-center justify-center rounded-full sm:size-8;
+    background: color-mix(in srgb, #ffffff 82%, var(--primary));
+    color: color-mix(in srgb, var(--primary) 88%, #0b2620);
+}
+
+.nav-cta-icon svg {
+    @apply size-[15px] transition-transform duration-200;
+}
+
+.nav-cta:hover .nav-cta-icon svg {
+    @apply translate-x-0.5 -translate-y-0.5;
 }
 
 .nav-burger {
@@ -175,7 +216,11 @@
 }
 
 .mobile-menu > a.mobile-cta {
-    @apply mt-2 rounded-full border-b-0 bg-primary text-center text-on-primary;
+    @apply mt-2 flex items-center justify-center gap-3 rounded-full border-b-0 bg-primary text-center text-on-primary;
+}
+
+.mobile-menu > a.mobile-cta .nav-cta-icon {
+    @apply size-7;
 }
 
 /* ------------------------------------------------------------------ */
@@ -729,6 +774,218 @@
     }
 
     .clients-cell { aspect-ratio: 4 / 3; }
+}
+
+/* ------------------------------------------------------------------ */
+/* About — centered head + stepped tabs | photo | panel content        */
+/* ------------------------------------------------------------------ */
+
+.about {
+    @apply relative overflow-hidden px-5 sm:px-8 lg:px-12;
+    padding-top: clamp(48px, 9vh, 110px);
+    padding-bottom: clamp(72px, 14vh, 160px);
+    background: var(--hero-bg-1);
+}
+
+/* Faded atom mark in the bottom-left corner (text cropped away). */
+.about-deco {
+    position: absolute;
+    left: -5%;
+    bottom: -8%;
+    width: clamp(240px, 32vw, 480px);
+    aspect-ratio: 1 / 0.78;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.about-deco img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: grayscale(1);
+    opacity: 0.13;
+}
+
+.about-head {
+    @apply relative z-[1] mx-auto mb-14 max-w-[1180px] text-center;
+}
+
+.about-eyebrow {
+    @apply text-[13px] font-bold tracking-[0.18em] text-primary uppercase;
+}
+
+.about-title {
+    @apply mt-4 font-display text-[clamp(2rem,4.6vw,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.03em] text-balance;
+    color: var(--hero-title);
+}
+
+.about-body {
+    @apply relative z-[1] mx-auto max-w-[1180px];
+    display: grid;
+    grid-template-areas: "tabs figure panels";
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1.3fr);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: start;
+}
+
+/* Left — stepped tab list */
+.about-tabs {
+    grid-area: tabs;
+    display: flex;
+    flex-direction: column;
+}
+
+.about-tab {
+    @apply appearance-none bg-transparent text-left font-display text-[clamp(1.05rem,1.5vw,1.2rem)] font-medium;
+    border: 0;
+    border-bottom: 1px solid var(--hairline);
+    padding: clamp(14px, 1.8vw, 20px) 0;
+    color: color-mix(in srgb, var(--foreground) 36%, transparent);
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.about-tab:hover {
+    color: color-mix(in srgb, var(--foreground) 68%, transparent);
+}
+
+.about-tab.is-active {
+    color: var(--hero-title);
+    font-weight: 800;
+    border-bottom-color: var(--hero-title);
+    box-shadow: 0 1px 0 var(--hero-title);
+}
+
+.about-tab:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+/* Centre — rounded photo + location badge */
+.about-figure {
+    grid-area: figure;
+    position: relative;
+    margin: 0;
+}
+
+.about-figure img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: left center;
+    border-radius: clamp(18px, 2.2vw, 28px);
+}
+
+.about-badge {
+    position: absolute;
+    right: clamp(10px, 4%, 16px);
+    bottom: clamp(10px, 4%, 16px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: calc(100% - 20px);
+    padding: 9px 14px 9px 10px;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    box-shadow: 0 16px 34px -20px rgb(20 30 26 / 50%);
+}
+
+.about-badge-mark {
+    @apply flex size-8 shrink-0 items-center justify-center rounded-[10px] text-[12px] font-bold;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--primary), var(--tertiary));
+}
+
+.about-badge-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.about-badge-info strong {
+    @apply text-[13.5px] font-bold leading-tight;
+    color: var(--hero-title);
+}
+
+.about-badge-info span {
+    @apply text-[12.5px] leading-tight;
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
+}
+
+/* Right — active panel content */
+.about-panels {
+    grid-area: panels;
+    display: flex;
+    flex-direction: column;
+}
+
+.about-panel[hidden] {
+    display: none;
+}
+
+.about-panel.is-active {
+    animation: about-panel-enter 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes about-panel-enter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.about-panel-label {
+    @apply text-[13px] font-bold;
+    color: var(--hero-title);
+}
+
+.about-panel-title {
+    @apply mt-3 font-display text-[clamp(1.5rem,2.5vw,2.05rem)] font-extrabold leading-[1.15] tracking-[-0.02em] text-balance;
+    color: var(--hero-title);
+}
+
+.about-text {
+    @apply mt-5 text-[16.5px] leading-[1.75];
+    color: color-mix(in srgb, var(--foreground) 74%, transparent);
+}
+
+.about-text em {
+    font-style: italic;
+}
+
+.about-text strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+@media (max-width: 899px) {
+    .about-body {
+        grid-template-areas:
+            "tabs"
+            "panels"
+            "figure";
+        grid-template-columns: minmax(0, 1fr);
+        gap: clamp(24px, 5vw, 40px);
+    }
+
+    .about-figure {
+        max-width: 560px;
+    }
+}
+
+@media (max-width: 639px) {
+    .about-head {
+        text-align: left;
+    }
+
+    .about-figure img {
+        aspect-ratio: 4 / 3;
+    }
+
+    .about-deco {
+        width: clamp(200px, 58vw, 320px);
+    }
 }
 
 .approach-preview { @apply border-t border-hairline; }

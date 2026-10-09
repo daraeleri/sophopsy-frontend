@@ -16,7 +16,7 @@
   <body class="relative font-sans antialiased">
     <header
       id="nav-shell"
-      class="absolute top-0 left-0 z-50 flex w-full items-center justify-center px-5 py-4 sm:px-8 lg:px-12"
+      class="fixed top-0 left-0 z-50 flex w-full items-center justify-center px-5 py-4 sm:px-8 lg:px-12"
       aria-label="Main navigation"
     >
       <div class="nav-bar w-full md:w-[80vw]">
@@ -87,7 +87,21 @@
             </svg>
           </button>
 
-          <a class="nav-cta" href="#contact">Get started</a>
+          <a class="nav-cta" href="#contact">
+            <span>Get started</span>
+            <span class="nav-cta-icon" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M7 17 17 7M8.5 7H17v8.5" />
+              </svg>
+            </span>
+          </a>
 
           <button
             id="nav-burger"
@@ -108,7 +122,21 @@
         <a href="#partners">Partners</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
-        <a class="mobile-cta" href="#contact">Get started</a>
+        <a class="mobile-cta" href="#contact">
+          <span>Get started</span>
+          <span class="nav-cta-icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M7 17 17 7M8.5 7H17v8.5" />
+            </svg>
+          </span>
+        </a>
       </div>
     </header>
 
@@ -392,6 +420,123 @@
             <img src="./assets/images/logo.png" alt="Sophopsy" width="500" height="500" />
           </li>
         </ul>
+      </section>
+
+      <section id="about" class="about" aria-labelledby="about-title">
+        <div class="about-deco" aria-hidden="true">
+          <img src="./assets/images/logo.png" alt="" />
+        </div>
+
+        <div class="about-head">
+          <p class="about-eyebrow">About</p>
+          <h2 id="about-title" class="about-title">
+            Tech innovation serving the human psyche
+          </h2>
+        </div>
+
+        <div class="about-body">
+          <div class="about-tabs" role="tablist" aria-label="About Sophopsy">
+            <button
+              class="about-tab is-active"
+              type="button"
+              role="tab"
+              id="about-tab-1"
+              aria-controls="about-panel-1"
+              aria-selected="true"
+            >
+              Who we are
+            </button>
+            <button
+              class="about-tab"
+              type="button"
+              role="tab"
+              id="about-tab-2"
+              aria-controls="about-panel-2"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Our mission
+            </button>
+            <button
+              class="about-tab"
+              type="button"
+              role="tab"
+              id="about-tab-3"
+              aria-controls="about-panel-3"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Quantum &amp; AI
+            </button>
+          </div>
+
+          <figure class="about-figure">
+            <img
+              src="./assets/images/about-image.jpg"
+              alt="Two colleagues discussing ideas in front of a glass wall covered with colourful sticky notes"
+              width="1080"
+              height="720"
+            />
+            <figcaption class="about-badge">
+              <span class="about-badge-mark" aria-hidden="true">CI</span>
+              <span class="about-badge-info">
+                <strong>Abidjan, Côte d'Ivoire</strong>
+                <span>Les II Plateaux, Cocody</span>
+              </span>
+            </figcaption>
+          </figure>
+
+          <div class="about-panels">
+            <div
+              class="about-panel is-active"
+              role="tabpanel"
+              id="about-panel-1"
+              aria-labelledby="about-tab-1"
+            >
+              <p class="about-panel-label">Founded in late 2025</p>
+              <h3 class="about-panel-title">Rooted in Abidjan, Côte d'Ivoire.</h3>
+              <p class="about-text">
+                SOPHOPSY &mdash; <em>Société d'Optimisation de la Psyché
+                Humaine et de l'Organisation des Programmes Scientifiques à
+                Yotta</em> &mdash; was founded in late 2025 in Abidjan, Côte
+                d'Ivoire.
+              </p>
+            </div>
+
+            <div
+              class="about-panel"
+              role="tabpanel"
+              id="about-panel-2"
+              aria-labelledby="about-tab-2"
+              hidden
+            >
+              <p class="about-panel-label">Our mission</p>
+              <h3 class="about-panel-title">A coherent digital ecosystem.</h3>
+              <p class="about-text">
+                Our mission: build a coherent digital ecosystem where advanced
+                tech systems, human-centered design and reflective thinking
+                work in harmony. We develop secure, scalable and sustainable
+                solutions that simplify institutional processes.
+              </p>
+            </div>
+
+            <div
+              class="about-panel"
+              role="tabpanel"
+              id="about-panel-3"
+              aria-labelledby="about-tab-3"
+              hidden
+            >
+              <p class="about-panel-label">Connected to Quantum Inspire</p>
+              <h3 class="about-panel-title">At the forefront in West Africa.</h3>
+              <p class="about-text">
+                Connected to <strong>Quantum Inspire</strong> for quantum
+                computing, we are at the forefront of AI-assisted clinical
+                analysis in West Africa.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 

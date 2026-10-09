@@ -132,6 +132,59 @@
 	}
 
 	/* ------------------------------------------------------------------ */
+	/* About tabs — swap the active panel                                  */
+	/* ------------------------------------------------------------------ */
+
+	var aboutTablist = document.querySelector('.about-tabs');
+
+	if (aboutTablist) {
+		var aboutTabs = Array.prototype.slice.call(aboutTablist.querySelectorAll('.about-tab'));
+		var aboutPanels = Array.prototype.slice.call(document.querySelectorAll('.about-panels .about-panel'));
+
+		var activateAboutTab = function (tab) {
+			aboutTabs.forEach(function (item) {
+				var active = item === tab;
+				item.classList.toggle('is-active', active);
+				item.setAttribute('aria-selected', active ? 'true' : 'false');
+				item.setAttribute('tabindex', active ? '0' : '-1');
+			});
+			aboutPanels.forEach(function (panel) {
+				var active = panel.id === tab.getAttribute('aria-controls');
+				panel.classList.toggle('is-active', active);
+				if (active) panel.removeAttribute('hidden');
+				else panel.setAttribute('hidden', '');
+			});
+		};
+
+		aboutTablist.addEventListener('click', function (event) {
+			var tab = event.target.closest ? event.target.closest('.about-tab') : null;
+			if (tab) activateAboutTab(tab);
+		});
+
+		aboutTablist.addEventListener('keydown', function (event) {
+			var index = aboutTabs.indexOf(document.activeElement);
+			if (index === -1) return;
+
+			var next = index;
+			if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+				next = (index + 1) % aboutTabs.length;
+			} else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+				next = (index - 1 + aboutTabs.length) % aboutTabs.length;
+			} else if (event.key === 'Home') {
+				next = 0;
+			} else if (event.key === 'End') {
+				next = aboutTabs.length - 1;
+			} else {
+				return;
+			}
+
+			event.preventDefault();
+			aboutTabs[next].focus();
+			activateAboutTab(aboutTabs[next]);
+		});
+	}
+
+	/* ------------------------------------------------------------------ */
 	/* Mobile menu                                                         */
 	/* ------------------------------------------------------------------ */
 
