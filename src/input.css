@@ -485,87 +485,143 @@ html.lenis body {
 }
 
 .stack {
-    @apply relative mx-auto max-w-[1180px];
+    @apply relative mx-auto flex max-w-[1180px] flex-col;
+    gap: clamp(16px, 2.4vw, 24px);
 }
 
+/* Tablet + mobile: plain cards in normal flow, no pinning, no motion.
+   The stacked scroll behaviour is desktop-only (see .is-fixed below). */
 .stack-card {
-    position: sticky;
-    top: 8vh;
-    min-height: min(74vh, 660px);
-    margin-bottom: 14vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-radius: 30px;
-    padding: clamp(28px, 5vw, 64px);
-    background:
-        linear-gradient(160deg,
-            color-mix(in srgb, var(--accent) 12%, var(--surface)),
-            color-mix(in srgb, var(--accent) 5%, var(--surface)));
-    border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
-    box-shadow: 0 30px 70px -40px rgb(20 30 26 / 45%);
+    @apply relative flex items-center overflow-hidden;
+    border-radius: clamp(24px, 3vw, 34px);
+    padding: clamp(22px, 4vw, 56px);
+    background: color-mix(in srgb, var(--accent) 13%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    box-shadow: 0 30px 70px -44px rgb(20 30 26 / 45%);
     will-change: transform;
     transform-origin: 50% 0%;
 }
 
-.stack-card:last-child {
-    margin-bottom: 0;
+.dark .stack-card {
+    background: color-mix(in srgb, var(--accent) 20%, var(--surface));
 }
 
 .stack-card-mark {
-    @apply pointer-events-none absolute top-1/2 left-1/2 block;
-    height: 120%;
+    @apply pointer-events-none absolute block;
+    top: 50%;
+    right: -6%;
+    height: 130%;
     width: auto;
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
     fill: none;
     color: var(--accent);
-    opacity: 0.32;
+    opacity: 0.17;
 }
 
 .stack-card-inner {
-    @apply relative z-10 flex w-full max-w-[760px] flex-col items-center text-center;
+    @apply relative z-10 grid w-full grid-cols-1 items-center lg:grid-cols-[1.15fr_1fr];
+    gap: clamp(24px, 4vw, 56px);
+}
+
+.stack-card-copy {
+    @apply flex flex-col items-start text-left;
 }
 
 .stack-card-top {
-    @apply mb-8 flex w-full items-center justify-start;
+    @apply mb-6 flex flex-wrap items-center gap-3;
+}
+
+.stack-card-count {
+    @apply font-display text-[14px] font-bold tabular-nums tracking-[0.06em];
+    color: color-mix(in srgb, var(--accent-ink) 75%, transparent);
 }
 
 .stack-card-tag {
     @apply inline-flex rounded-full px-3.5 py-1.5 text-[12px] font-bold tracking-[0.14em] uppercase;
     color: var(--accent-ink);
-    background: color-mix(in srgb, var(--accent) 20%, transparent);
-}
-
-.stack-card-icon {
-    @apply mb-6 flex size-16 items-center justify-center rounded-2xl;
-    color: var(--accent-ink);
     background: color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
-.stack-card-icon svg {
-    @apply size-8;
-}
-
 .stack-card-title {
-    @apply font-display text-[clamp(1.75rem,4.1vw,3.4rem)] font-extrabold leading-[1.08] tracking-[-0.03em] text-balance;
+    @apply font-display text-[clamp(1.7rem,3.4vw,3.1rem)] font-extrabold leading-[1.08] tracking-[-0.03em] text-balance;
     color: var(--accent-ink);
 }
 
 .stack-card-text {
-    @apply mt-6 max-w-[560px] text-[17px] leading-[1.7];
-    color: color-mix(in srgb, var(--accent-ink) 88%, var(--foreground));
+    @apply mt-5 max-w-[520px] text-[16.5px] leading-[1.7];
+    color: color-mix(in srgb, var(--accent-ink) 85%, var(--foreground));
 }
 
-.dark .stack-card {
-    background:
-        linear-gradient(160deg,
-            color-mix(in srgb, var(--accent) 20%, var(--surface)),
-            color-mix(in srgb, var(--accent) 9%, var(--surface)));
+.stack-card-link {
+    @apply mt-7 inline-flex items-center gap-2 text-[15px] font-bold underline underline-offset-[6px];
+    color: var(--accent-ink);
 }
 
-.dark .stack-card-title {
+.stack-card-link span {
+    @apply transition-transform duration-200;
+}
+
+.stack-card-link:hover span {
+    @apply translate-x-1;
+}
+
+.stack-card-link:focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* White panel: icon + the key points of the service */
+.stack-card-panel {
+    @apply flex flex-col;
+    padding: clamp(20px, 2.6vw, 32px);
+    border-radius: clamp(18px, 2.2vw, 24px);
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    box-shadow: 0 24px 50px -34px rgb(20 30 26 / 40%);
+}
+
+.stack-card-icon {
+    @apply flex size-14 items-center justify-center rounded-2xl;
+    color: var(--accent-ink);
+    background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.stack-card-icon svg {
+    @apply size-7;
+}
+
+.stack-card-points {
+    @apply mt-5 flex flex-col;
+}
+
+.stack-card-points li {
+    @apply flex items-center gap-3 py-3.5 text-[15.5px] font-medium leading-snug;
+    border-top: 1px solid var(--hairline);
+    color: color-mix(in srgb, var(--foreground) 82%, transparent);
+}
+
+.stack-card-check {
+    @apply flex size-6 shrink-0 items-center justify-center rounded-full;
+    color: var(--accent-ink);
+    background: color-mix(in srgb, var(--accent) 26%, transparent);
+}
+
+.stack-card-check svg {
+    @apply size-3.5;
+}
+
+.dark .stack-card-title,
+.dark .stack-card-link,
+.dark .stack-card-tag,
+.dark .stack-card-icon,
+.dark .stack-card-check {
     color: color-mix(in srgb, var(--accent) 72%, #ffffff);
+}
+
+.dark .stack-card-count {
+    color: color-mix(in srgb, var(--accent) 72%, #ffffff);
+    opacity: 0.8;
 }
 
 .dark .stack-card-text {
@@ -573,10 +629,10 @@ html.lenis body {
 }
 
 /* ------------------------------------------------------------------ */
-/* Fixed-screen mode — added by expertise.js when GSAP pins the       */
-/* section. The section locks into a 100vh stage (background + head    */
-/* included) and the cards are clipped underneath it, rising up one    */
-/* by one as you scroll.                                              */
+/* Fixed-screen mode — added by expertise.js on desktop only, when    */
+/* GSAP pins the section. It locks into a 100vh stage (background +    */
+/* head included) and the cards are clipped underneath it, rising up   */
+/* over one another as you scroll.                                     */
 /* ------------------------------------------------------------------ */
 
 .expertise.is-fixed {
@@ -591,7 +647,7 @@ html.lenis body {
 
 .expertise.is-fixed .expertise-head {
     flex: 0 0 auto;
-    width: 100%; /* flex item + auto margins would size to fit-content */
+    width: 100%;
     margin-bottom: clamp(14px, 2.5vh, 34px);
 }
 
@@ -600,37 +656,48 @@ html.lenis body {
     font-size: clamp(14px, 2.2vh, 17px);
 }
 
-/* The stack fills everything below the head; each card spans it fully. */
 .expertise.is-fixed .stack {
+    display: block;
     flex: 1 1 auto;
     min-height: 0;
-    width: 100%; /* flex item + auto margins would size to fit-content (0,
-                   since every card is absolutely positioned inside it) */
+    width: 100%;
 }
 
 .expertise.is-fixed .stack-card {
     position: absolute;
     inset: 0;
-    min-height: 0;
-    margin-bottom: 0;
-    padding-block: clamp(16px, 3.5vh, 56px);
+    padding-block: clamp(16px, 3.5vh, 48px);
 }
 
 .expertise.is-fixed .stack-card-top {
-    margin-bottom: clamp(12px, 2.5vh, 32px);
+    margin-bottom: clamp(10px, 2vh, 24px);
 }
 
-.expertise.is-fixed .stack-card-icon {
-    margin-bottom: clamp(12px, 2vh, 24px);
+.expertise.is-fixed .stack-card-title {
+    font-size: clamp(1.6rem, min(3.2vw, 5.4vh), 3rem);
 }
 
 .expertise.is-fixed .stack-card-text {
-    margin-top: clamp(12px, 2vh, 24px);
-    font-size: clamp(14px, 2.2vh, 17px);
+    margin-top: clamp(10px, 1.8vh, 20px);
+    font-size: clamp(14px, 2.1vh, 16.5px);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .stack-card { position: relative; top: auto; margin-bottom: 24px; }
+.expertise.is-fixed .stack-card-link {
+    margin-top: clamp(14px, 2.4vh, 28px);
+}
+
+.expertise.is-fixed .stack-card-icon {
+    width: clamp(40px, 6.4vh, 56px);
+    height: clamp(40px, 6.4vh, 56px);
+}
+
+.expertise.is-fixed .stack-card-points {
+    margin-top: clamp(8px, 1.6vh, 20px);
+}
+
+.expertise.is-fixed .stack-card-points li {
+    padding-block: clamp(8px, 1.5vh, 14px);
+    font-size: clamp(14px, 2vh, 15.5px);
 }
 
 /* ------------------------------------------------------------------ */
