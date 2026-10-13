@@ -1135,6 +1135,200 @@ html.lenis body {
     color: #5b6561;
 }
 
+/* ------------------------------------------------------------------ */
+/* CTA — dark forest card, soft light glow fading in from the top edge  */
+/* ------------------------------------------------------------------ */
+
+/* The strip around the card keeps the About colour so the glow at the
+   top of the card reads as a continuation of the section above. */
+.cta {
+    padding: 0 8px;
+    background: var(--hero-bg-1);
+}
+
+.cta-card {
+    @apply relative isolate mx-auto flex flex-col items-center overflow-hidden text-center;
+    padding: clamp(104px, 17vw, 168px) 20px clamp(56px, 8vw, 88px);
+    border-radius: clamp(26px, 4vw, 44px) clamp(26px, 4vw, 44px);
+    background: var(--cta-bg);
+}
+
+.cta-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse 72% 64% at 50% -10%,
+        var(--hero-bg-1) 0%,
+        color-mix(in srgb, var(--hero-bg-1) 55%, transparent) 36%,
+        transparent 100%
+    );
+}
+
+.cta-title {
+    @apply max-w-[18ch] font-display text-[clamp(1.75rem,3.8vw,2.9rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-balance text-white;
+}
+
+.cta-text {
+    @apply mt-5 max-w-[560px] text-[15px] leading-[1.7] text-pretty sm:text-[16px];
+    color: rgb(255 255 255 / 58%);
+}
+
+/* Solid white pill — no gradient, no glow. */
+.cta-button {
+    @apply mt-9 inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-[15px] font-semibold text-on-primary transition-[transform,box-shadow] duration-200;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 25%), 0 10px 24px -12px rgb(0 0 0 / 55%);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 25%), 0 16px 30px -14px rgb(0 0 0 / 65%);
+}
+
+.cta-button:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Footer — raised white card + oversized cropped wordmark underneath   */
+/* ------------------------------------------------------------------ */
+
+.site-footer {
+    @apply relative overflow-hidden px-5 sm:px-8;
+    padding-top: clamp(24px, 4vw, 40px);
+    background: var(--background);
+}
+
+.footer-card {
+    @apply relative z-[1] mx-auto max-w-[1100px];
+    border-radius: clamp(22px, 3vw, 32px);
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    box-shadow:
+        0 1px 0 rgb(255 255 255 / 70%) inset,
+        0 34px 64px -34px rgb(20 30 26 / 30%);
+}
+
+/* Same trick as the navbar plate: the card stays a light surface in both
+   themes, so the colour logo keeps its contrast on the dark page. */
+.dark .footer-card {
+    --surface: #ffffff;
+    --foreground: #222222;
+    --ink: #241b35;
+    --hairline: color-mix(in srgb, #222222 11%, transparent);
+    box-shadow: 0 34px 64px -30px rgb(0 0 0 / 60%);
+}
+
+.footer-top {
+    @apply flex flex-col gap-10 lg:flex-row lg:justify-between lg:gap-16;
+    padding: clamp(28px, 4.5vw, 52px) clamp(24px, 4.5vw, 52px) clamp(28px, 4vw, 44px);
+}
+
+.footer-brand {
+    @apply flex max-w-[330px] flex-col items-start;
+}
+
+.footer-logo img {
+    @apply h-24 w-auto;
+    margin: -10px 0 -6px -14px;
+}
+
+.footer-about {
+    @apply mt-4 text-[13.5px] leading-[1.7];
+    color: color-mix(in srgb, var(--foreground) 62%, transparent);
+}
+
+.footer-social {
+    @apply mt-6 flex items-center gap-4;
+}
+
+.footer-social a {
+    @apply flex size-9 items-center justify-center rounded-full transition-colors duration-150;
+    color: var(--ink);
+    border: 1px solid var(--hairline);
+}
+
+.footer-social a:hover {
+    background: var(--ink);
+    color: var(--surface);
+}
+
+.footer-social a:focus-visible,
+.footer-col a:focus-visible,
+.footer-legal a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.footer-social svg {
+    @apply size-[17px];
+}
+
+.footer-cols {
+    @apply grid grid-cols-2 gap-x-8 gap-y-9 sm:grid-cols-3 lg:gap-x-16;
+}
+
+.footer-col h3 {
+    @apply font-display text-[14px] font-bold;
+    color: var(--ink);
+}
+
+.footer-col ul {
+    @apply mt-5 flex flex-col gap-3;
+}
+
+.footer-col a,
+.footer-col span {
+    @apply text-[13.5px] leading-snug;
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
+}
+
+.footer-col a {
+    @apply transition-colors duration-150;
+}
+
+.footer-col a:hover {
+    color: var(--ink);
+}
+
+.footer-bottom {
+    @apply flex flex-col gap-3 text-[12.5px] sm:flex-row sm:items-center sm:justify-between;
+    margin: 0 clamp(24px, 4.5vw, 52px);
+    padding: 20px 0 26px;
+    border-top: 1px solid var(--hairline);
+    color: color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+
+.footer-legal {
+    @apply flex flex-wrap items-center gap-x-6 gap-y-2;
+}
+
+.footer-legal a {
+    @apply underline underline-offset-4 transition-colors duration-150;
+}
+
+.footer-legal a:hover {
+    color: var(--foreground);
+}
+
+/* Giant faded name, cropped by the bottom edge of the page. */
+.footer-wordmark {
+    @apply pointer-events-none relative z-0 text-center font-display font-extrabold whitespace-nowrap select-none;
+    margin-top: clamp(-6px, -0.5vw, 0px);
+    font-size: clamp(64px, 19.5vw, 290px);
+    line-height: 0.82;
+    letter-spacing: -0.055em;
+    height: 0.7em;
+    overflow: hidden;
+    color: color-mix(in srgb, var(--foreground) 7%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, #000 25%, transparent 96%);
+    mask-image: linear-gradient(to bottom, #000 25%, transparent 96%);
+}
+
 .approach-preview { @apply border-t border-hairline; }
 
 .approach-link {
