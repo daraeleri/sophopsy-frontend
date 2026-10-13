@@ -215,4 +215,42 @@
 			if (e.key === 'Escape') setMenu(false);
 		});
 	}
+
+	/* ------------------------------------------------------------------ */
+	/* Impact — stagger reveal + count-up when the card scrolls into view   */
+	/* ------------------------------------------------------------------ */
+
+	var impact = document.querySelector('.impact');
+
+	if (impact && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		var impactItems = Array.prototype.slice.call(impact.querySelectorAll('.impact-item'));
+		var counters = Array.prototype.slice.call(impact.querySelectorAll('[data-count]'));
+
+		impactItems.forEach(function (item, i) { item.style.setProperty('--i', i); });
+		counters.forEach(function (el) { el.textContent = '0'; });
+		impact.classList.add('js-reveal');
+
+		var runCounters = function () {
+			var start = null;
+			var duration = 1100;
+			var tick = function (now) {
+				if (start === null) start = now;
+				var t = Math.min((now - start) / duration, 1);
+				var eased = 1 - Math.pow(1 - t, 3);
+				counters.forEach(function (el) {
+					el.textContent = String(Math.round(parseInt(el.getAttribute('data-count'), 10) * eased));
+				});
+				if (t < 1) window.requestAnimationFrame(tick);
+			};
+			window.requestAnimationFrame(tick);
+		};
+
+		var impactObserver = new IntersectionObserver(function (entries) {
+			if (!entries[0].isIntersecting) return;
+			impactObserver.disconnect();
+			impact.classList.add('is-visible');
+			runCounters();
+		}, { threshold: 0.35 });
+		impactObserver.observe(impact.querySelector('.impact-card'));
+	}
 })();
