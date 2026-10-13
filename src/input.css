@@ -707,14 +707,14 @@ html.lenis body {
 .quantum {
     @apply px-5 sm:px-8 lg:px-12;
     /* Room for the map to rise above the card. */
-    padding-top: clamp(96px, 14vw, 170px);
-    padding-bottom: clamp(48px, 7vw, 96px);
+    padding-top: clamp(84px, 9vw, 120px);
+    padding-bottom: clamp(32px, 5vw, 64px);
     background: var(--background);
 }
 
 .quantum-card {
-    @apply relative mx-auto grid max-w-[1180px] grid-cols-1 items-center lg:grid-cols-[0.92fr_1fr];
-    border-radius: clamp(22px, 3vw, 32px);
+    @apply relative mx-auto grid max-w-[1080px] grid-cols-1 items-center lg:grid-cols-[1fr_1.1fr];
+    border-radius: clamp(20px, 2.6vw, 28px);
     background: var(--hero-bg-1);
 }
 
@@ -726,38 +726,34 @@ html.lenis body {
    (and the rounded bottom-left corner) clip it to the card. */
 .quantum-visual {
     @apply relative;
-    height: clamp(210px, 50vw, 300px);
-    clip-path: inset(-100vh 0 0 0 round 0 0 0 clamp(22px, 3vw, 32px));
+    height: clamp(170px, 42vw, 230px);
+    clip-path: inset(-100vh 0 0 0 round 0 0 0 clamp(20px, 2.6vw, 28px));
 }
 
 .quantum-visual img {
     @apply absolute block h-auto;
     left: 50%;
     bottom: -6%;
-    width: min(78%, 360px);
+    width: min(70%, 290px);
     transform: translateX(-50%);
 }
 
 .quantum-content {
     @apply flex flex-col items-start;
-    padding: clamp(8px, 2vw, 24px) clamp(24px, 5vw, 72px) clamp(32px, 5vw, 64px);
+    padding: 4px clamp(22px, 4vw, 48px) clamp(26px, 4vw, 40px);
 }
 
 .quantum-eyebrow {
-    @apply text-[13px] font-bold tracking-[0.18em] text-primary uppercase;
+    @apply text-[12px] font-bold tracking-[0.18em] text-primary uppercase;
 }
 
 .quantum-title {
-    @apply mt-4 font-display text-[clamp(2rem,4.2vw,3.6rem)] font-extrabold leading-[1.05] tracking-[-0.03em] text-balance;
+    @apply mt-3 font-display text-[clamp(1.6rem,3vw,2.5rem)] font-extrabold leading-[1.08] tracking-[-0.03em] text-balance;
     color: var(--hero-title);
 }
 
-.quantum-title span {
-    display: block;
-}
-
 .quantum-text {
-    @apply mt-6 max-w-[540px] text-[16.5px] leading-[1.8];
+    @apply mt-4 max-w-[480px] text-[15px] leading-[1.7];
     color: color-mix(in srgb, var(--foreground) 78%, transparent);
 }
 
@@ -767,7 +763,7 @@ html.lenis body {
 }
 
 .quantum-chip {
-    @apply mt-5 text-[13px] font-semibold tracking-[0.02em];
+    @apply mt-4 text-[12.5px] font-semibold tracking-[0.02em];
     color: color-mix(in srgb, var(--foreground) 62%, transparent);
 }
 
@@ -777,7 +773,7 @@ html.lenis body {
 }
 
 .quantum-button {
-    @apply mt-8 inline-flex items-center rounded-[12px] px-7 py-4 text-[15px] font-bold transition-transform duration-200 hover:-translate-y-0.5;
+    @apply mt-6 inline-flex items-center rounded-[11px] px-6 py-3 text-[14.5px] font-bold transition-transform duration-200 hover:-translate-y-0.5;
     background: var(--hero-title);
     color: var(--background);
 }
@@ -788,31 +784,23 @@ html.lenis body {
 }
 
 @media (min-width: 1024px) {
-    .quantum-card {
-        grid-template-columns: 1.1fr 1fr;
-    }
-
     .quantum-visual {
         height: 100%;
-        clip-path: inset(-100vh -48px 0 0 round 0 0 0 clamp(22px, 3vw, 32px));
+        clip-path: inset(-100vh -40px 0 0 round 0 0 0 28px);
     }
 
     /* Bigger than the card: breaks out through the top, bleeds off the
        left and bottom edges like the reference. */
     .quantum-visual img {
-        left: -10%;
-        bottom: -2%;
-        width: 118%;
+        left: -8%;
+        bottom: -4%;
+        width: 104%;
         max-width: none;
         transform: none;
     }
 
     .quantum-content {
-        padding-block: clamp(36px, 4vw, 56px);
-    }
-
-    .quantum-title {
-        font-size: clamp(2rem, 3.6vw, 3.3rem);
+        padding-block: clamp(28px, 3vw, 40px);
     }
 }
 
