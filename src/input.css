@@ -225,45 +225,66 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* Hero — forest-green motive, centered title / subtitle / CTAs        */
+/* Hero — full-bleed photo, dark forest overlay, left-aligned copy      */
 /* ------------------------------------------------------------------ */
 
 .hero {
-    @apply relative isolate flex flex-1 flex-col items-center justify-center overflow-hidden px-5 py-16 text-center sm:px-8;
-    /* background: linear-gradient(160deg, var(--hero-bg-1), var(--hero-bg-2)); */
+    @apply relative isolate flex min-h-screen flex-col justify-end overflow-hidden px-5 sm:px-8;
+    /* Swap the photo here (or drop src/assets/images/hero.jpg and point to it). */
+    --hero-image: url("../../images/expertise-section-bg.jpg");
+    --hero-overlay: 6 19 12;
+    padding-top: 140px;
+    padding-bottom: clamp(48px, 9vh, 96px);
+    background: rgb(var(--hero-overlay));
 }
 
-.hero-bg {
-    @apply pointer-events-none absolute inset-0 z-0;
+.hero-media {
+    @apply pointer-events-none absolute inset-0 z-0 overflow-hidden;
 }
 
-.hero-shape {
-    @apply absolute block;
-    fill: var(--hero-shape-1);
+.hero-media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--hero-image) center / cover no-repeat;
+    animation: hero-drift 26s ease-in-out infinite alternate;
 }
 
-.hero-shape--left {
-    top: 8%;
-    left: -5%;
-    width: 44%;
-    height: 78%;
+.hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgb(var(--hero-overlay) / 90%) 0%,
+        rgb(var(--hero-overlay) / 58%) 48%,
+        rgb(var(--hero-overlay) / 66%) 100%
+    );
 }
 
-.hero-shape--bottom {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 46%;
-    fill: var(--hero-shape-2);
+@keyframes hero-drift {
+    from { transform: scale(1); }
+    to { transform: scale(1.07); }
 }
 
+/* Same width as the navbar bar so the copy lines up with the logo. */
 .hero-content {
-    @apply relative z-10 flex w-full max-w-[1100px] flex-col items-center gap-9;
+    @apply relative z-10 mx-auto flex w-full flex-col items-start gap-7 text-left md:w-[80vw];
+}
+
+.hero-badge {
+    @apply inline-flex items-center gap-2.5 rounded-full border px-4 py-1.5 text-[12.5px] font-semibold tracking-[0.04em] text-white;
+    border-color: rgb(255 255 255 / 28%);
+    background: rgb(255 255 255 / 10%);
+    backdrop-filter: blur(6px);
+}
+
+.hero-badge-dot {
+    @apply size-2 rounded-full bg-primary;
 }
 
 .hero-title {
-    @apply max-w-[20ch] text-balance font-display text-[clamp(2.25rem,7vw,7rem)] font-extrabold leading-[1.03] tracking-[-0.03em];
-    color: var(--hero-title);
+    @apply max-w-[17ch] text-balance font-display text-[clamp(2.4rem,6.4vw,5.75rem)] font-extrabold leading-[1.02] tracking-[-0.035em] text-white;
 }
 
 .hero-asterisk {
@@ -271,25 +292,44 @@
 }
 
 .hero-sub {
-    @apply max-w-[720px] text-[16px] leading-[1.75] sm:text-[17px];
-    color: color-mix(in srgb, var(--hero-title) 90%, transparent);
+    @apply max-w-[620px] text-[16px] leading-[1.7] sm:text-[18px];
+    color: rgb(255 255 255 / 78%);
 }
 
 .hero-ctas {
-    @apply mt-2 flex flex-wrap items-center justify-center gap-4 sm:gap-7;
+    @apply mt-1 flex flex-wrap items-center gap-3 sm:gap-4;
 }
 
 .hero-cta {
-    @apply inline-flex items-center rounded-[10px] bg-primary px-7 py-3.5 text-[15px] font-bold text-on-primary;
+    @apply inline-flex items-center rounded-full bg-primary px-7 py-3.5 text-[15px] font-bold text-on-primary transition-transform duration-200 hover:-translate-y-0.5;
 }
 
 .hero-link {
-    @apply text-[15px] font-semibold underline underline-offset-[6px];
-    color: var(--hero-title);
+    @apply inline-flex items-center rounded-full border px-7 py-3.5 text-[15px] font-semibold text-white transition-colors duration-200;
+    border-color: rgb(255 255 255 / 45%);
 }
 
 .hero-link:hover {
-    color: var(--primary);
+    @apply bg-white text-on-primary;
+}
+
+.hero-cta:focus-visible,
+.hero-link:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+}
+
+/* Navbar over the photo: light ink + a white chip behind the colour logo
+   until the page scrolls and the white plate takes over. */
+#nav-shell:not(.is-scrolled) .nav-bar {
+    --foreground: #ffffff;
+    --ink: #ffffff;
+    --background: #06130c;
+    --hairline: rgb(255 255 255 / 30%);
+}
+
+#nav-shell:not(.is-scrolled) .nav-brand img {
+    @apply rounded-2xl bg-white p-1;
 }
 
 /* ------------------------------------------------------------------ */
