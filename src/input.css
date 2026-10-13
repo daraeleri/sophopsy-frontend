@@ -1003,7 +1003,7 @@
 .cta-card {
     @apply relative isolate mx-auto flex flex-col items-center overflow-hidden text-center;
     padding: clamp(104px, 17vw, 168px) 20px clamp(56px, 8vw, 88px);
-    border-radius: 0 0 clamp(26px, 4vw, 44px) clamp(26px, 4vw, 44px);
+    border-radius: clamp(26px, 4vw, 44px) clamp(26px, 4vw, 44px);
     background: var(--cta-bg);
 }
 
