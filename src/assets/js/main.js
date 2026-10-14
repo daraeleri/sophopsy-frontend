@@ -102,7 +102,7 @@
 				var gap = parseFloat(window.getComputedStyle(partnersTrack).columnGap) || 0;
 				var distance = rowWidth + gap;
 				partnersTrack.style.setProperty('--partners-distance', distance + 'px');
-				partnersTrack.style.setProperty('--partners-duration', distance / 40 + 's');
+				partnersTrack.style.setProperty('--partners-duration', distance / 80 + 's');
 				partnersClone = partnersRow.cloneNode(true);
 				partnersClone.setAttribute('aria-hidden', 'true');
 				partnersClone.setAttribute('inert', '');
