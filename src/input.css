@@ -1516,13 +1516,27 @@ html.lenis body {
     );
 }
 
+/* Particle field (cta-particles.js): map of Côte d'Ivoire ↔ "SOPHOPSY". */
+.cta-particles {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
 .cta-title {
     @apply max-w-[18ch] font-display text-[clamp(1.75rem,3.8vw,2.9rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-balance text-white;
+    /* Keeps the copy readable over the particle field. */
+    text-shadow: 0 2px 18px rgb(6 19 12 / 85%), 0 0 4px rgb(6 19 12 / 60%);
 }
 
 .cta-text {
     @apply mt-5 max-w-[560px] text-[15px] leading-[1.7] text-pretty sm:text-[16px];
-    color: rgb(255 255 255 / 58%);
+    color: rgb(255 255 255 / 72%);
+    text-shadow: 0 1px 10px rgb(6 19 12 / 90%), 0 0 3px rgb(6 19 12 / 80%);
 }
 
 /* Solid white pill — no gradient, no glow. */
