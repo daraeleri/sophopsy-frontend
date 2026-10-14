@@ -454,11 +454,16 @@ html.lenis body {
 
 .expertise {
     @apply relative px-5 pt-20 pb-10 sm:px-8 lg:px-12;
-    background-color: var(--background);
+    /* The band (background + gradient overlay) keeps the dark-mode colours
+       in both themes, like the always-dark hero/cta bands. */
+    --expertise-bg: #171A19;
+    --expertise-ink: #F6F5EF;
+    --expertise-muted: rgb(245 245 245 / 72%);
+    background-color: var(--expertise-bg);
     background-image:
         linear-gradient(
-            color-mix(in srgb, var(--background) 78%, transparent),
-            color-mix(in srgb, var(--background) 86%, transparent)
+            color-mix(in srgb, var(--expertise-bg) 78%, transparent),
+            color-mix(in srgb, var(--expertise-bg) 86%, transparent)
         ),
         url("../../images/expertise-section-bg.jpg");
     background-size: cover, cover;
@@ -476,12 +481,13 @@ html.lenis body {
 
 .expertise-title {
     @apply mt-4 font-display text-[clamp(2rem,4.4vw,3.5rem)] font-extrabold tracking-[-0.03em];
-    color: var(--hero-title);
+    /* Head copy sits on the always-dark band → dark-mode ink in every theme. */
+    color: var(--expertise-ink);
 }
 
 .expertise-lead {
     @apply mt-5 max-w-[560px] text-[17px] leading-[1.7];
-    color: color-mix(in srgb, var(--foreground) 72%, transparent);
+    color: var(--expertise-muted);
 }
 
 .stack {
@@ -1533,6 +1539,162 @@ html.lenis body {
 .cta-button:focus-visible {
     outline: 2px solid #ffffff;
     outline-offset: 4px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Contact — intro + map | white form card | info list                 */
+/* ------------------------------------------------------------------ */
+
+.contact {
+    @apply px-5 sm:px-8 lg:px-12;
+    padding-top: clamp(72px, 10vw, 128px);
+    padding-bottom: clamp(24px, 4vw, 40px);
+    background: var(--background);
+}
+
+.contact-grid {
+    @apply mx-auto grid max-w-[1280px] grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1fr_1.05fr_0.8fr] lg:gap-[clamp(32px,4vw,64px)];
+}
+
+/* Left column: eyebrow, heading, lead, then the map fills the space below. */
+.contact-intro {
+    @apply flex flex-col md:col-span-2 lg:col-span-1;
+}
+
+.contact-eyebrow {
+    @apply inline-flex items-center gap-2 text-[17px] font-semibold text-tertiary;
+}
+
+.contact-eyebrow svg {
+    @apply h-[18px] w-[18px];
+}
+
+.contact-title {
+    @apply mt-6 max-w-[14ch] font-display text-[clamp(1.9rem,3.2vw,2.6rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-balance;
+    color: var(--hero-title);
+}
+
+.contact-lead {
+    @apply mt-5 max-w-[440px] text-[16px] leading-[1.7] text-pretty;
+    color: color-mix(in srgb, var(--foreground) 66%, transparent);
+}
+
+.contact-map {
+    @apply relative mt-10 min-h-[280px] flex-1 overflow-hidden;
+    border-radius: clamp(20px, 2.4vw, 28px);
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+}
+
+.contact-map iframe {
+    @apply absolute inset-0 h-full w-full border-0;
+    filter: grayscale(0.35) contrast(1.02);
+}
+
+.dark .contact-map iframe {
+    filter: invert(0.9) hue-rotate(180deg) grayscale(0.3);
+}
+
+.contact-map-chip {
+    @apply pointer-events-none absolute top-4 right-4 hidden sm:inline-flex items-center gap-2 rounded-full px-4 py-2 text-[14px] font-semibold;
+    color: var(--foreground);
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 10%), 0 10px 24px -12px rgb(0 0 0 / 35%);
+}
+
+.contact-map-dot {
+    @apply h-2.5 w-2.5 rounded-full bg-primary;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+/* Middle column: white form card with underlined fields. */
+.contact-card {
+    @apply flex flex-col;
+    padding: clamp(24px, 3vw, 40px);
+    border-radius: clamp(22px, 2.6vw, 30px);
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 4%), 0 24px 48px -32px rgb(0 0 0 / 25%);
+}
+
+.contact-card-title {
+    @apply flex items-center gap-3 font-display text-[clamp(1.5rem,2.2vw,1.85rem)] font-bold tracking-[-0.02em];
+    color: var(--foreground);
+}
+
+.contact-card-title svg {
+    @apply h-8 w-8 shrink-0;
+}
+
+.contact-form {
+    @apply mt-8 flex flex-1 flex-col gap-2;
+}
+
+.contact-field input,
+.contact-field textarea {
+    @apply block w-full bg-transparent px-1 py-4 text-[16px] transition-colors outline-none;
+    color: var(--foreground);
+    border-bottom: 1px solid var(--hairline);
+}
+
+.contact-field textarea {
+    @apply min-h-[180px] resize-y;
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder {
+    color: color-mix(in srgb, var(--foreground) 45%, transparent);
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+    border-bottom-color: var(--primary);
+}
+
+.contact-submit {
+    @apply mt-8 inline-flex w-full items-center justify-center rounded-full px-7 py-4 text-[16px] font-semibold transition-[transform,box-shadow] duration-200;
+    color: #ffffff;
+    background: var(--cta-bg);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 25%), 0 10px 24px -12px rgb(0 0 0 / 55%);
+}
+
+.dark .contact-submit {
+    color: var(--on-primary);
+    background: var(--primary);
+}
+
+.contact-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 25%), 0 16px 30px -14px rgb(0 0 0 / 65%);
+}
+
+.contact-submit:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+/* Right column: sits at the bottom of the row on large screens. */
+.contact-info {
+    @apply flex flex-col gap-10 self-end;
+}
+
+.contact-info-item dt {
+    @apply font-display text-[19px] font-bold tracking-[-0.01em];
+    color: var(--foreground);
+}
+
+.contact-info-item dd {
+    @apply mt-3 text-[16px] leading-[1.6];
+    color: color-mix(in srgb, var(--foreground) 72%, transparent);
+}
+
+.contact-info-item a {
+    @apply transition-colors;
+    color: var(--foreground);
+}
+
+.contact-info-item a:hover {
+    color: var(--primary);
 }
 
 /* ------------------------------------------------------------------ */
