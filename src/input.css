@@ -946,9 +946,14 @@ html.lenis body {
     width: 100%;
 }
 
+.about-pillar:hover .about-pillar-num {
+    color: var(--accent);
+}
+
 .about-pillar-num {
     @apply font-display text-[clamp(3.4rem,6vw,5rem)] font-extrabold leading-none tracking-[-0.05em] tabular-nums;
     color: color-mix(in srgb, var(--foreground) 14%, transparent);
+    transition: color 0.3s ease;
 }
 
 .about-pillar-tag {
@@ -1331,7 +1336,7 @@ html.lenis body {
     transition: opacity 0.3s ease;
 }
 
-.dark .work-card::after { background: rgb(255 255 255 / 0.28); }
+.dark .work-card::after { background: color-mix(in srgb, var(--background) 72%, transparent); }
 
 .work-col:has(.work-project:hover) .work-card:not(:hover)::after,
 .work-col:has(.work-project:focus-visible) .work-card:not(:focus-visible)::after {
@@ -1481,7 +1486,7 @@ html.lenis body {
    top of the card reads as a continuation of the section above. */
 .cta {
     padding: 0 8px;
-    background: var(--hero-bg-1);
+    background: var(--background);
 }
 
 .cta-card {
