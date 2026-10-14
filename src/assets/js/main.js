@@ -283,4 +283,75 @@
 		window.addEventListener('resize', updateWork);
 		window.addEventListener('load', updateWork);
 	}
+
+	/* ------------------------------------------------------------------ */
+	/* Testimonials — next button ring fills, then the quote advances       */
+	/* ------------------------------------------------------------------ */
+
+	var testi = document.querySelector('[data-testimonials]');
+
+	if (testi) {
+		var tSlides = Array.prototype.slice.call(testi.querySelectorAll('.testi-slide'));
+		var tNext = testi.querySelector('[data-testi-next]');
+		var tPrev = testi.querySelector('[data-testi-prev]');
+		var tCount = testi.querySelector('[data-testi-count]');
+		var tRing = testi.querySelector('.testi-btn--next');
+		var tDuration = 6000;
+		var tIndex = 0;
+		var tElapsed = 0;
+		var tLast = 0;
+		var tFrame = 0;
+		var tHover = false;
+		var tVisible = false;
+		var tAuto = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+		var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+
+		var showSlide = function (i) {
+			tIndex = (i + tSlides.length) % tSlides.length;
+			tSlides.forEach(function (s, k) {
+				var on = k === tIndex;
+				s.classList.toggle('is-active', on);
+				s.setAttribute('aria-hidden', on ? 'false' : 'true');
+			});
+			if (tCount) tCount.textContent = pad(tIndex + 1) + ' / ' + pad(tSlides.length);
+			tElapsed = 0;
+			tRing.style.setProperty('--testi-progress', '0');
+		};
+
+		var tick = function (now) {
+			tFrame = 0;
+			if (!tAuto || tHover || !tVisible || document.hidden) { tLast = 0; return; }
+			if (tLast) tElapsed += now - tLast;
+			tLast = now;
+			if (tElapsed >= tDuration) {
+				showSlide(tIndex + 1);
+			} else {
+				tRing.style.setProperty('--testi-progress', String((tElapsed / tDuration) * 100));
+			}
+			tFrame = window.requestAnimationFrame(tick);
+		};
+
+		var tRun = function () {
+			if (!tFrame && tAuto) { tLast = 0; tFrame = window.requestAnimationFrame(tick); }
+		};
+
+		tNext.addEventListener('click', function () { showSlide(tIndex + 1); tRun(); });
+		tPrev.addEventListener('click', function () { showSlide(tIndex - 1); tRun(); });
+		testi.addEventListener('mouseenter', function () { tHover = true; });
+		testi.addEventListener('mouseleave', function () { tHover = false; tRun(); });
+		document.addEventListener('visibilitychange', tRun);
+
+		if ('IntersectionObserver' in window) {
+			new IntersectionObserver(function (entries) {
+				tVisible = entries[0].isIntersecting;
+				tRun();
+			}, { threshold: 0.3 }).observe(testi);
+		} else {
+			tVisible = true;
+		}
+
+		showSlide(0);
+		tRun();
+	}
 })();

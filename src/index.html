@@ -656,7 +656,41 @@
         </div>
       </section>
 
-      <section class="cta" aria-labelledby="cta-title">
+      <section id="testimonials" class="testi" aria-labelledby="testi-title">
+        <div class="testi-card" data-testimonials>
+          <div class="testi-nav">
+            <button type="button" class="testi-btn" data-testi-prev aria-label="Previous testimonial">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+            </button>
+            <button type="button" class="testi-btn testi-btn--next" data-testi-next aria-label="Next testimonial">
+              <svg class="testi-ring" viewBox="0 0 52 52" aria-hidden="true"><circle class="testi-ring-track" cx="26" cy="26" r="25" pathLength="100" /><circle class="testi-ring-bar" cx="26" cy="26" r="25" pathLength="100" /></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </button>
+          </div>
+
+          <div class="testi-body">
+            <p class="testi-head"><span class="testi-count" data-testi-count aria-hidden="true">01 / 03</span><span id="testi-title" class="testi-title">Don't just take our word for it…</span></p>
+            <div class="testi-slides" aria-live="polite">
+              <!-- Sample copy: replace with real client quotes, names and photos. -->
+              <figure class="testi-slide is-active">
+                <blockquote class="testi-quote">&ldquo;Sophopsy understood our business from the first call. The platform they delivered was clear, fast and ready for our teams from day one.&rdquo;</blockquote>
+                <figcaption class="testi-author"><span class="testi-avatar" style="--accent: #00c9a7">CN</span><span><span class="testi-name">Client Name</span><span class="testi-role">Company, Role</span></span></figcaption>
+              </figure>
+              <figure class="testi-slide">
+                <blockquote class="testi-quote">&ldquo;From the first workshop to launch, the team stayed close to us. Everything was designed to fit how we actually work in Côte d'Ivoire.&rdquo;</blockquote>
+                <figcaption class="testi-author"><span class="testi-avatar" style="--accent: #7b61ff">CN</span><span><span class="testi-name">Client Name</span><span class="testi-role">Company, Role</span></span></figcaption>
+              </figure>
+              <figure class="testi-slide">
+                <blockquote class="testi-quote">&ldquo;Reliable, responsive and honest. Our teams are equipped, motivated, and using the product every single day.&rdquo;</blockquote>
+                <figcaption class="testi-author"><span class="testi-avatar" style="--accent: #f5a623">CN</span><span><span class="testi-name">Client Name</span><span class="testi-role">Company, Role</span></span></figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+<section class="cta" aria-labelledby="cta-title">
         <div class="cta-card">
           <h2 id="cta-title" class="cta-title">
             Ready to bring technology to the human psyche?
