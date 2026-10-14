@@ -253,4 +253,34 @@
 		}, { threshold: 0.35 });
 		impactObserver.observe(impact.querySelector('.impact-card'));
 	}
+
+	/* ------------------------------------------------------------------ */
+	/* Our work — looping vertical columns                                 */
+	/* ------------------------------------------------------------------ */
+
+	var workCols = document.querySelector('.work-cols');
+
+	if (workCols) {
+		var workTracks = Array.prototype.slice.call(workCols.querySelectorAll('.work-track'));
+
+		workTracks.forEach(function (track) {
+			var group = track.querySelector('.work-group');
+			var clone = group.cloneNode(true);
+			clone.setAttribute('aria-hidden', 'true');
+			clone.setAttribute('inert', '');
+			track.appendChild(clone);
+		});
+
+		var updateWork = function () {
+			workTracks.forEach(function (track) {
+				var h = track.firstElementChild.getBoundingClientRect().height;
+				track.style.setProperty('--work-dur', Math.max(h / 28, 12) + 's');
+			});
+		};
+
+		workCols.classList.add('is-live');
+		updateWork();
+		window.addEventListener('resize', updateWork);
+		window.addEventListener('load', updateWork);
+	}
 })();
